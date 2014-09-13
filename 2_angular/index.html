@@ -1,0 +1,36 @@
+<html ng-app>
+
+<head>
+  <script src="js/angular.min.js"></script>
+  <script src="js/app.js"></script>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+  <div ng-controller="BasketCtrl">
+  	<h1>plokin demo basket app - AngularJS</h1>
+
+    <div ng-show="getTotalPrice()">
+    	<h2>your basket</h2>
+    	<ul>
+        <li ng-repeat="item in offer| filter:selectedFilter">
+          {{item.name}}, {{item.quantity}} * €{{item.unit_price}} = €{{ item.quantity * item.unit_price }}  
+          <a class="increase" ng-click="item.quantity = item.quantity+1">+</a> 
+          <a class="decrease" ng-click="item.quantity = item.quantity-1">-</a>  
+          <a class="remove" ng-click="item.quantity = 0">remove</a>
+        </li>
+      </ul>
+    	total: €{{getTotalPrice()}} <input type="button" value="clear-basket">
+    </div>
+
+  	<h2>our offer</h2>
+  	<ul id="offer-list">
+       <li ng-repeat="item in offer">
+          {{item.name}}, €{{item.unit_price}} <input type="text" class="quantity" placeholder="quantity" ng-model="item.input_value"> 
+          <a class="add" ng-click="addToBasket($index)">add</a>
+        </li>
+    </ul>
+  </div>
+</body>
+
+</html>
