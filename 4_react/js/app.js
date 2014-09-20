@@ -35,13 +35,13 @@ var BasketApplication = React.createClass({
         onRemove={this.updateQuantity.bind(this, item, 0)} />;
     }, this);
     
-    var basket = basketNodes.length ? <div id="basket">
+    var basket = basketNodes.length==0 ? null : <div id="basket">
         <h2>your basket</h2>
-        <ul id="basket-list">
+        <div id="basket-list">
           {basketNodes}
-        </ul>
-        total: €{total} <input type="button" value="clear-basket" />
-      </div> : null;
+        </div>
+        total: <span className="price-cart">€{total}</span>
+      </div>;
     
     var offerNodes = this.state.items.map(function(item){
       return <OfferItem item={item} key={item.id} onAdd={this.addItemToBasket.bind(this, item)} />;
@@ -51,9 +51,9 @@ var BasketApplication = React.createClass({
       <h1>Basket demo application - React</h1>
       {basket}
       <h2>our offer</h2>
-      <ul id="offer-list">
+      <div id="offer-list">
         {offerNodes}
-      </ul>
+      </div>
     </div>;
   }
 });
@@ -67,21 +67,36 @@ var OfferItem = React.createClass({
   },
   render: function() {
     var item = this.props.item;
-    return <li>
-      {item.name}, €{item.unit_price} <input type="text" className="quantity" placeholder="quantity" ref="quantity" /> <a className="add" onClick={this.handleAdd}>add</a>
-    </li>;
+    return <div className="row offer-row">
+      <div className="col-sm-2 product-name">{item.name}</div>
+      <div className="col-sm-2 price-tag">€{item.unit_price}</div>
+      <div className="input-group col-sm-4">
+        <input type="text" className="quantity form-control" placeholder="quantity" ref="quantity" />
+        <span className="input-group-btn">
+          <button className="add btn btn-default" type="button" onClick={this.handleAdd}><span className="glyphicon glyphicon-shopping-cart"></span> Add</button>
+        </span>
+      </div>
+    </div>;
   }
 });
 
 var BasketItem = React.createClass({
   render: function() {
     var item = this.props.item;
-    return <li>
-      {item.name}, {item.quantity} * €{item.unit_price} = €{ item.quantity * item.unit_price }
-      &nbsp;<a className="increase" onClick={this.props.onIncrease.bind(null)}>+</a>
-      &nbsp;<a className="decrease" onClick={this.props.onDecrease.bind(null)}>-</a>
-      &nbsp;<a className="remove" onClick={this.props.onRemove.bind(null)}>remove</a>
-    </li>;
+    return <div className="row basket-row">
+      <div className="col-sm-4 product-name">{item.name}</div>
+      <div className="col-sm-2">
+        <a onClick={this.props.onDecrease.bind(null)}><span className="glyphicon glyphicon-minus"></span></a>&nbsp;
+        <span className="badge">{item.quantity}</span>&nbsp;
+        <a onClick={this.props.onIncrease.bind(null)}><span className="glyphicon glyphicon-plus"></span></a>
+      </div><div className="col-sm-4">
+        <span className="price-cart">€{ item.quantity * item.unit_price }</span> (€{item.unit_price} per unit)
+      </div><div className="col-sm-2">
+        <button type="button" className="btn btn-default btn-sm" onClick={this.props.onRemove.bind(null)}>
+          <span className="glyphicon glyphicon-remove glyphicon-red"></span> Remove
+        </button>
+      </div>
+    </div>;
   }
 });
 
