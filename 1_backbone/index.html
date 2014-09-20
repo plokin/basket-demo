@@ -1,41 +1,39 @@
 <html>
 
 <head>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="js/underscore-min.js"></script>
+  <script src="js/backbone-min.js"></script>
+  <script src="js/app.js"></script>
 </head>
 
 <body>
   <div id="basket-app">
-  	<h1>plokin demo basket app - Backbone.js</h1>
-
+    <h1>Basket demo application - Backbone.js</h1>
+    
     <div id="basket">
-    	<h2>your basket</h2>
-    	<ul id="basket-list"></ul>
-    	total: €<span id="total-price">0</span> <input type="button" value="clear-basket">
+      <h2>your basket</h2>
+      <ul id="basket-list"></ul>
+      total: €<span id="total-price">0</span> <input type="button" value="clear-basket">
     </div>
-
-  	<h2>our offer</h2>
-  	<ul id="offer-list"></ul>
+    
+    <h2>our offer</h2>
+    <ul id="offer-list"></ul>
   </div>
-
-	<script src="js/jquery-1.11.0.min.js"></script>
-  <script src="js/underscore-min.js"></script>
-  <script src="js/backbone-min.js"></script>
-
-  <script src="js/app.js"></script>
-
+  
   <!-- Templates -->
-
+  
   <script type="text/template" id="basket-item-template">
-		<%- name %>, <%= quantity %> * €<%= unit_price %> = €<%= unit_price*quantity %>  
-		<a class="increase">+</a> 
-		<a class="decrease">-</a>  
-		<a class="remove">remove</a>
+    <%- name %>, <%= quantity %> * €<%= unit_price %> = €<%= unit_price*quantity %>  
+    <a class="increase">+</a> 
+    <a class="decrease">-</a>  
+    <a class="remove">remove</a>
   </script>
-
+  
   <script type="text/template" id="offer-item-template">
-		<%- name %>, €<%= unit_price %> <input type="text" class="quantity" placeholder="quantity"> 
-		<a class="add">add</a>
+    <%- name %>, €<%= unit_price %> <input type="text" class="quantity" placeholder="quantity"> 
+    <a class="add">add</a>
   </script>
 </body>
 
