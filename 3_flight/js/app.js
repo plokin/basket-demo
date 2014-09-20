@@ -7,15 +7,25 @@ $(function() {
       addSelector: '.add'
     });
     this.addToBasket = function (event, data) {
-      var additional_quantity = parseInt($(event.target).parent().find('.quantity').val());
+      var additional_quantity = parseInt($(event.target).closest(".input-group").find('.quantity').val());
       if(!isNaN(additional_quantity) && additional_quantity>0) {
-        this.trigger('uiAddToBasketAction', { item_id: $(event.target).parent().data("id"), item_count: additional_quantity });
+        this.trigger('uiAddToBasketAction', { item_id: $(event.target).closest(".offer-row").data("id"), item_count: additional_quantity });
       }
     };
     this.render = function (event, data) {
       var html = '';
       data.items.forEach( function(item, idx) {
-         html += '<li data-id="'+idx+'">'+item.name+', €'+item.unit_price+' <input type="text" class="quantity" placeholder="quantity"> <a class="add">add</a> </li>';
+        html += 
+        '<div data-id="'+idx+'" class="row offer-row"> \
+          <div class="col-sm-2 product-name">'+item.name+'</div> \
+          <div class="col-sm-2 price-tag">€'+item.unit_price+'</div> \
+          <div class="input-group col-sm-4"> \
+            <input type="text" class="quantity form-control" placeholder="quantity"> \
+            <span class="input-group-btn"> \
+              <button class="add btn btn-default" type="button"><span class="glyphicon glyphicon-shopping-cart"></span> Add</button> \
+            </span> \
+          </div> \
+        </div>';
       });
       this.$node.html(html);
     };
@@ -37,8 +47,20 @@ $(function() {
       data.items.filter( function(a){return a.quantity>0;} ).forEach( function(item, idx) {
         total_quantity += item.quantity;
         html += 
-          '<li data-id="'+idx+'">'+item.name+', '+item.quantity+' * €'+item.unit_price+' = €'+(item.quantity * item.unit_price)
-          +' <a class="basket-item-button increase">+</a> <a class="basket-item-button decrease">-</a> <a class="basket-item-button remove">remove</a></li>';
+        '<div data-id="'+idx+'" class="row basket-row"> \
+          <div class="col-sm-4 product-name">'+item.name+'</div> \
+          <div class="col-sm-2"> \
+            <a class="decrease"><span class="glyphicon glyphicon-minus"></span></a> \
+            <span class="badge">'+item.quantity+'</span> \
+            <a class="increase"><span class="glyphicon glyphicon-plus"></span></a> \
+          </div><div class="col-sm-4"> \
+            <span class="price-cart">€'+(item.quantity * item.unit_price)+'</span> (€'+item.unit_price+' per unit) \
+          </div><div class="col-sm-2"> \
+            <button type="button" class="remove btn btn-default btn-sm"> \
+              <span class="glyphicon glyphicon-remove glyphicon-red"></span> Remove \
+            </button> \
+          </div> \
+        </div>';
       });
       this.$node.find('#basket-list').html(html);
       if(total_quantity === 0) {
@@ -50,9 +72,9 @@ $(function() {
     this.after('initialize', function() {
       this.on('dataBasketUpdated', this.render);
       this.on('click', {
-        increaseSelector: function(event, data) {this.trigger('uiAddToBasketAction', { item_id: $(event.target).parent().data("id"), item_count: 1 });},
-        decreaseSelector: function(event, data) {this.trigger('uiAddToBasketAction', { item_id: $(event.target).parent().data("id"), item_count: -1 });},
-        removeSelector: function(event, data) {this.trigger('uiRemoveFromBasketAction', { item_id: $(event.target).parent().data("id")});}
+        increaseSelector: function(event, data) {this.trigger('uiAddToBasketAction', { item_id: $(event.target).closest(".basket-row").data("id"), item_count: 1 });},
+        decreaseSelector: function(event, data) {this.trigger('uiAddToBasketAction', { item_id: $(event.target).closest(".basket-row").data("id"), item_count: -1 });},
+        removeSelector: function(event, data) {this.trigger('uiRemoveFromBasketAction', { item_id: $(event.target).closest(".basket-row").data("id")});}
       });
     });
   });
