@@ -2,6 +2,8 @@
 
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../styles.css">
   <script src="js/jquery-1.11.0.min.js"></script>
   <script src="js/underscore-min.js"></script>
   <script src="js/backbone-min.js"></script>
@@ -9,31 +11,45 @@
 </head>
 
 <body>
-  <div id="basket-app">
+  <div id="basket-app" class="container">
     <h1>Basket demo application - Backbone.js</h1>
     
     <div id="basket">
       <h2>your basket</h2>
-      <ul id="basket-list"></ul>
-      total: €<span id="total-price">0</span> <input type="button" value="clear-basket">
+      <div id="basket-list"></div>
+      total: <span class="price-cart">€<span id="total-price">0</span></span>
     </div>
     
     <h2>our offer</h2>
-    <ul id="offer-list"></ul>
+    <div id="offer-list"></div>
   </div>
   
   <!-- Templates -->
   
   <script type="text/template" id="basket-item-template">
-    <%- name %>, <%= quantity %> * €<%= unit_price %> = €<%= unit_price*quantity %>  
-    <a class="increase">+</a> 
-    <a class="decrease">-</a>  
-    <a class="remove">remove</a>
+    <div class="col-sm-4 product-name"><%- name %></div>
+    <div class="col-sm-2">
+      <a class="decrease"><span class="glyphicon glyphicon-minus"></span></a>
+      <span class="badge"><%= quantity %></span>
+      <a class="increase"><span class="glyphicon glyphicon-plus"></span></a>
+    </div><div class="col-sm-4">
+      <span class="price-cart">€<%= unit_price*quantity %></span> (€<%= unit_price %> per unit)
+    </div><div class="col-sm-2">
+      <button type="button" class="remove btn btn-default btn-sm">
+        <span class="glyphicon glyphicon-remove glyphicon-red"></span> Remove
+      </button>
+    </div>
   </script>
   
   <script type="text/template" id="offer-item-template">
-    <%- name %>, €<%= unit_price %> <input type="text" class="quantity" placeholder="quantity"> 
-    <a class="add">add</a>
+    <div class="col-sm-2 product-name"><%- name %></div>
+    <div class="col-sm-2 price-tag">€<%= unit_price %></div>
+    <div class="input-group col-sm-4">
+      <input type="text" class="quantity form-control" placeholder="quantity">
+      <span class="input-group-btn">
+        <button class="add btn btn-default" type="button"><span class="glyphicon glyphicon-shopping-cart"></span> Add</button>
+      </span>
+    </div>
   </script>
 </body>
 

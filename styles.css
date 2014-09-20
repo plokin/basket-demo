@@ -1,0 +1,8 @@
+div.container { max-width: 800px; }
+h1 { margin-bottom: 30px; }
+#basket { background-color: rgb(190, 212, 236); padding: 30px; padding-top: 5px; border-radius: 15px; }
+div.offer-row, div.cart-row { height: 40px; }
+div.product-name { font-size: 18px; line-height: 34px; }
+div.price-tag { font-size: 15px; line-height: 34px; text-align:right;}
+span.price-cart { font-size: 18px; }
+.glyphicon-red { color: red; }

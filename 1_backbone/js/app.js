@@ -22,7 +22,7 @@ $(function(){
   var Offer = new OfferCollection(products);
   
   var OfferView = Backbone.View.extend({
-    tagName: "li",
+    className: "row offer-row",
     template: _.template($('#offer-item-template').html()),
     events: {
       "click .add"   : "addToBasket"
@@ -40,7 +40,7 @@ $(function(){
   });
   
   var BasketView = Backbone.View.extend({
-    tagName: "li",
+    className: "row basket-row",
     template: _.template($('#basket-item-template').html()),
     events: {
       "click .increase"   : "increase",
@@ -72,12 +72,10 @@ $(function(){
       this.basket = $('#basket');  
       this.basket_list = $('#basket-list');
       this.total_price = $('#total-price');
-      
       Offer.each(function(item) {
         var view = new OfferView({model: item});
         this.$("#offer-list").append(view.render().el);
       });
-      
       this.listenTo(Offer, 'all', this.render);
       this.render();
     },
