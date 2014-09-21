@@ -1,4 +1,4 @@
-// Michal Wszolek - basket demo app - Flight
+// Michal Wszolek - Basket demo application - Flight
 
 $(function() {
   

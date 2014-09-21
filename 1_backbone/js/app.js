@@ -1,4 +1,4 @@
-// Michal Wszolek - basket demo app - Backbone.js
+// Michal Wszolek - Basket demo application - Backbone.js
 
 $(function(){
   var Product = Backbone.Model.extend();

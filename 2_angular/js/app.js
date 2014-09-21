@@ -1,4 +1,4 @@
-// Michal Wszolek - basket demo app - AngularJS
+// Michal Wszolek - Basket demo application - AngularJS
 
 var products = [
   { name: "smartphone", quantity: 0, unit_price: 200 },

@@ -1,7 +1,5 @@
-/**
- * Michal Wszolek - basket demo app - React
- * @jsx React.DOM
- */
+/** @jsx React.DOM */
+// Michal Wszolek - basket demo app - React
 
 var BasketApplication = React.createClass({
   getInitialState: function() {
@@ -13,14 +11,9 @@ var BasketApplication = React.createClass({
         {id: 3, name:'laptop', quantity: 0, unit_price: 1000},
       ]}
   },
-  updateQuantity: function(item, newQuantity) {
+  updateQuantity: function(item, quantityChange) {
     var items = this.state.items;
-    items[item.id].quantity = newQuantity;
-    this.setState({items: items});
-  },
-  addItemToBasket: function(item, quantity) {
-    var items = this.state.items;
-    items[item.id].quantity += quantity;
+    items[item.id].quantity += quantityChange;
     this.setState({items: items});
   },
   render: function() {
@@ -28,30 +21,30 @@ var BasketApplication = React.createClass({
     
     var basketNodes = this.state.items.filter(function(item){
       return item.quantity>0;
-    }, this).map(function(item){
+    }).map(function(item){
       return <BasketItem item={item} key={item.id}
-        onIncrease={this.updateQuantity.bind(this, item, item.quantity+1)} 
-        onDecrease={this.updateQuantity.bind(this, item, item.quantity-1)} 
-        onRemove={this.updateQuantity.bind(this, item, 0)} />;
+        onIncrease={this.updateQuantity.bind(this, item, 1)}
+        onDecrease={this.updateQuantity.bind(this, item, -1)}
+        onRemove={this.updateQuantity.bind(this, item, -item.quantity)} />;
     }, this);
     
     var basket = basketNodes.length==0 ? null : <div id="basket">
         <h2>your basket</h2>
-        <div id="basket-list">
+        <div>
           {basketNodes}
         </div>
         total: <span className="price-cart">€{total}</span>
       </div>;
     
     var offerNodes = this.state.items.map(function(item){
-      return <OfferItem item={item} key={item.id} onAdd={this.addItemToBasket.bind(this, item)} />;
+      return <OfferItem item={item} key={item.id} onAdd={this.updateQuantity.bind(this, item)} />;
     }, this);
     
     return <div>
       <h1>Basket demo application - React</h1>
       {basket}
       <h2>our offer</h2>
-      <div id="offer-list">
+      <div>
         {offerNodes}
       </div>
     </div>;
@@ -90,7 +83,7 @@ var BasketItem = React.createClass({
         <span className="badge">{item.quantity}</span>&nbsp;
         <a onClick={this.props.onIncrease.bind(null)}><span className="glyphicon glyphicon-plus"></span></a>
       </div><div className="col-sm-4">
-        <span className="price-cart">€{ item.quantity * item.unit_price }</span> (€{item.unit_price} per unit)
+        <span className="price-cart">€{ item.quantity*item.unit_price }</span> (€{item.unit_price} per unit)
       </div><div className="col-sm-2">
         <button type="button" className="btn btn-default btn-sm" onClick={this.props.onRemove.bind(null)}>
           <span className="glyphicon glyphicon-remove glyphicon-red"></span> Remove
